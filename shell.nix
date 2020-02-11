@@ -1,6 +1,7 @@
 let overlay = self: super:
 {
   testu01 = self.callPackage ./TestU01 { };
+  practrand = self.callPackage ./PractRand { };
 };
 
 in
@@ -11,6 +12,7 @@ nixpkgs.stdenv.mkDerivation {
   name = "env";
   buildInputs = [
     nixpkgs.testu01
+    nixpkgs.practrand
   ];
 }
 
