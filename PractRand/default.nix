@@ -1,6 +1,6 @@
-{ stdenv, fetchurl, unzip }:
+{ clangStdenv, fetchurl, unzip }:
 
-stdenv.mkDerivation {
+clangStdenv.mkDerivation {
   name = "PractRand";
   src = fetchurl {
     url = "https://downloads.sourceforge.net/project/pracrand/PractRand_0.93.zip";
@@ -12,20 +12,21 @@ stdenv.mkDerivation {
     unzip -q $src
   '';
   patchPhase = ''
+    patch -p1 < ${./practrand-0.93-memset.patch}
     patch -p0 < ${./practrand-0.93-bigbuffer.patch}
   '';
   buildPhase = ''
-    g++ -std=c++14 -c src/*.cpp src/RNGs/*.cpp src/RNGs/other/*.cpp -O3 -Iinclude -pthread
+    clang++ -Wno-array-bounds -Wno-parentheses -Wno-constant-logical-operand -std=c++14 -c src/*.cpp src/RNGs/*.cpp src/RNGs/other/*.cpp -O3 -Iinclude -pthread
     ar rcs libPractRand.a *.o
     rm *.o
-    g++ -std=c++14 -o RNG_test tools/RNG_test.cpp libPractRand.a -O3 -Iinclude -pthread
+    clang++ -Wno-array-bounds -Wno-parentheses -Wno-constant-logical-operand -std=c++14 -o RNG_test tools/RNG_test.cpp libPractRand.a -O3 -Iinclude -pthread
   '';
   installPhase = ''
     mkdir -p $out/bin
     cp RNG_test $out/bin
   '';
 
-  meta = with stdenv.lib; {
+  meta = with clangStdenv.lib; {
     description = "C++ library of pseudo-random number generators and statistical tests for RNGs.";
     license = licenses.publicDomain;
     homepage = http://pracrand.sourceforge.net/;
