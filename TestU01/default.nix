@@ -8,7 +8,6 @@ stdenv.mkDerivation rec {
   };
   nativeBuildInputs = [ unzip ];
   hardeningDisable = [ "format" ];
-  # unpackPhase = "unzip ${src}";
   buildInputs = [ ];
   configureFlags = [ ];
 

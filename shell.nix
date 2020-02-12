@@ -11,8 +11,10 @@ in
 nixpkgs.stdenv.mkDerivation {
   name = "env";
   buildInputs = [
+    nixpkgs.libiconv
     nixpkgs.testu01
     nixpkgs.practrand
+    nixpkgs.gcc
   ];
 }
 
