@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
   };
   nativeBuildInputs = [ gsl ];
   buildInputs = [ ];
-  configureFlags = [ ];
+  configureFlags = [ "--disable-shared" ];
 
   meta = with stdenv.lib; {
     description = "Suite of Random Number Tests";
