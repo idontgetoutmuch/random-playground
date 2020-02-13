@@ -9,6 +9,9 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ gsl ];
   buildInputs = [ ];
   configureFlags = [ "--disable-shared" ];
+  patchPhase = ''
+    patch -p1 < ${./dieharder-3.31.1-fix-intptr_t-error.patch}
+  '';
 
   meta = with stdenv.lib; {
     description = "Suite of Random Number Tests";
